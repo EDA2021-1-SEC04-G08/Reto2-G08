@@ -38,7 +38,30 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- los n videos con más LIKES para el nombre de una categoría " +
+          "específica")
+    print("3 - Salir")
+
+
+def initCatalog():
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    controller.loadData(catalog)
+
+
+def printVideos1(videos, cantidad):
+    size = lt.size(videos)
+    if size > cantidad:
+        print(' Estos son los mejores videos: ')
+        i = 0
+        while i <= cantidad-1:
+            video = lt.getElement(videos, i)
+            print('Titulo: ' + video['title'])
+            i += 1
+    else:
+        print('No se encontraron videos')
 
 
 catalog = None
@@ -51,9 +74,17 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Videos cargados: ' + str(lt.size(catalog['video'])))
+        print('Categorias cargadas: ' + str(lt.size(catalog['categoryID'])))
 
     elif int(inputs[0]) == 2:
-        pass
+        categoria = input("Seleccione una categoria: ")
+        top = input('Top?: ')
+        categoryID = controller.getCategoryid(catalog, categoria)
+        lista = controller.sortVideos(catalog, categoryID)
+        printVideos1(lista, int(top))
 
     else:
         sys.exit(0)
