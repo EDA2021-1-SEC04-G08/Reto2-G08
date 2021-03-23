@@ -40,7 +40,7 @@ def printMenu():
     print("1- Cargar información en el catálogo")
     print("2- los n videos con más LIKES para el nombre de una categoría " +
           "específica")
-    print("3 - Salir")
+    print("3- Salir")
 
 
 def initCatalog():
@@ -48,7 +48,7 @@ def initCatalog():
 
 
 def loadData(catalog):
-    controller.loadData(catalog)
+    return controller.loadData(catalog)
 
 
 def printVideos1(videos, cantidad):
@@ -75,9 +75,11 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
-        loadData(catalog)
+        answer = loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['video'])))
         print('Categorias cargadas: ' + str(lt.size(catalog['categoryID'])))
+        print("\nTiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{answer[1]:.3f}")
 
     elif int(inputs[0]) == 2:
         categoria = input("Seleccione una categoria: ")
