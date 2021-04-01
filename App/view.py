@@ -38,9 +38,10 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- los n videos con más LIKES para el nombre de una categoría " +
+    print("2- Los n videos con más LIKES para el nombre de una categoría " +
           "específica")
-    print("3- Salir")
+    print("3- Los mejores videos por categoria y pais (views)")
+    print("4- Salir")
 
 
 def initCatalog():
@@ -51,7 +52,7 @@ def loadData(catalog):
     return controller.loadData(catalog)
 
 
-def printVideos1(videos, cantidad):
+def printVideosByLikes(videos, cantidad):
     size = lt.size(videos)
     if size > cantidad:
         print(' Estos son los mejores videos: ')
@@ -59,6 +60,24 @@ def printVideos1(videos, cantidad):
         while i <= cantidad-1:
             video = lt.getElement(videos, i)
             print('Titulo: ' + video['title'])
+            i += 1
+    else:
+        print('No se encontraron videos')
+
+
+def printVideosByViews(videos, cantidad):
+    size = lt.size(videos)
+    if size == cantidad:
+        print(' Estos son los mejores videos: ')
+        i = 0
+        while i <= cantidad-1:
+            video = lt.getElement(videos, i)
+            print('Titulo: ' + video['title'] + ', Trending Date:' +
+                  video['trending_date'] + ', Nombre del canal:' +
+                  video['channel_title'] + ', Publish Time:' +
+                  video['publish_time'] + ', Reproducciones:' +
+                  video['views'] + ', Likes:' + video['likes'] +
+                  ', Dislikes:' + video['dislikes'])
             i += 1
     else:
         print('No se encontraron videos')
@@ -79,14 +98,23 @@ while True:
         print('Videos cargados: ' + str(lt.size(catalog['video'])))
         print('Categorias cargadas: ' + str(lt.size(catalog['categoryID'])))
         print("\nTiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
-              "Memoria [kB]: ", f"{answer[1]:.3f}")
+              "Memoria [kB]: ", f"{answer[1]:.3f}\n")
 
     elif int(inputs[0]) == 2:
         categoria = input("Seleccione una categoria: ")
         top = input('Top?: ')
         categoryID = controller.getCategoryid(catalog, categoria)
-        lista = controller.sortVideos(catalog, categoryID)
-        printVideos1(lista, int(top))
+        lista = controller.sortVideosByLikes(catalog, categoryID)
+        printVideosByLikes(lista, int(top))
+
+    elif int(inputs[0]) == 3:
+        categoria = input("Seleccione una categoria: ")
+        pais = input("Seleccione un pais: ")
+        top = input('Top?: ')
+        categoryID = controller.getCategoryid(catalog, categoria)
+        lista = controller.sortVideosByViews(catalog, pais)
+        masVistos = controller.sublistByCategory(lista, categoryID, top)
+        printVideosByViews(masVistos, int(top))
 
     else:
         sys.exit(0)

@@ -81,14 +81,25 @@ def loadCategories(catalog):
 # Funciones de ordenamiento
 
 
-def sortVideos(catalog, id):
-    return model.sortVideos(catalog, id)
+def sortVideosByLikes(catalog, id):
+    return model.sortVideosByLikes(catalog, id)
+
+
+def sortVideosByViews(catalog, pais):
+    return model.sortVideosByViews(catalog, pais)
 
 # Funciones de consulta sobre el catálogo
 
 
 def getCategoryid(catalog, category):
     return model.getCategoryid(catalog, category)
+
+
+# Funciones para creacion de datos
+
+
+def sublistByCategory(lista, id, top):
+    return model.sublistByCategory(lista, id, top)
 
 
 # Funciones para medir tiempo y memoria

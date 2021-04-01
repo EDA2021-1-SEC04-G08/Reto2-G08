@@ -52,15 +52,17 @@ def newCatalog():
     catalog['categoryByVideos'] = mp.newMap(37,
                                             maptype='CHAINING',
                                             loadfactor=1.2)
+    catalog['countryByVideos'] = mp.newMap(100,
+                                           maptype='CHAINING',
+                                           loadfactor=1.2)
     return catalog
-
-
 # Funciones para agregar informacion al catalogo
 
 
 def addVideo(catalog, video):
     lt.addLast(catalog['video'], video)
     addVideoCategory(catalog, video)
+    addVideoCountry(catalog, video)
 
 
 def addCategoryID(catalog, category):
@@ -89,8 +91,50 @@ def newId(id):
     return entry
 
 
+def addVideoCountry(catalog, video):
+    cou = catalog['countryByVideos']
+    if (video['country'] != ''):
+        cou1 = video['country']
+
+    existcou = mp.contains(cou, cou1)
+    if existcou:
+        entry = mp.get(cou, cou1)
+        dic = me.getValue(entry)
+    else:
+        dic = newCountry(cou1)
+        mp.put(cou, cou1, dic)
+    lt.addLast(dic['videos'], video)
+
+
+def newCountry(country):
+    entry = {'country': "", "videos": None}
+    entry['country'] = country
+    entry['videos'] = lt.newList('SINGLE_LINKED')
+    return entry
+
 # Funciones para creacion de datos
 
+
+def sublistByCategory(lista, id, top):
+    size = lt.size(lista)
+    sublist = lt.newList('ARRAY_LIST')
+    i = 0
+    T = 0
+
+    while i < size:
+        video = lt.getElement(lista, i)
+        id1 = video['category_id']
+
+        if id1 == id:
+            lt.addLast(sublist, video)
+            T += 1
+
+        if T == int(top):
+            break
+
+        i += 1
+
+    return sublist
 
 # Funciones de consulta
 
@@ -108,12 +152,24 @@ def cmpVideosByLikes(video1, video2):
     return (int(video1['likes']) > (int(video2['likes'])))
 
 
+def cmpVideosByViews(video1, video2):
+    return (int(video1['views']) > (int(video2['views'])))
+
+
 # Funciones de ordenamiento
 
 
-def sortVideos(catalog, id):
+def sortVideosByLikes(catalog, id):
     entry = mp.get(catalog['categoryByVideos'], id)
     sub_list = me.getValue(entry)['videos']
     sub_list = sub_list.copy()
     sorted_list = ms.sort(sub_list, cmpVideosByLikes)
+    return sorted_list
+
+
+def sortVideosByViews(catalog, pais):
+    entry = mp.get(catalog['countryByVideos'], pais)
+    sub_list = me.getValue(entry)['videos']
+    sub_list = sub_list.copy()
+    sorted_list = ms.sort(sub_list, cmpVideosByViews)
     return sorted_list
