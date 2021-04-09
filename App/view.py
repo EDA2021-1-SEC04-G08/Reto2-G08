@@ -41,7 +41,10 @@ def printMenu():
     print("2- Los n videos con más LIKES para el nombre de una categoría " +
           "específica")
     print("3- Los mejores videos por categoria y pais (views)")
-    print("4- Salir")
+    print("4- Encontrar video tendencia por pais")
+    print("5- Encontrar video tendencia por categoria")
+    print("6- Buscar videos con mas likes")
+    print("7- Salir")
 
 
 def initCatalog():
@@ -83,6 +86,24 @@ def printVideosByViews(videos, cantidad):
         print('No se encontraron videos')
 
 
+def printVideosByTags(videos, cantidad):
+    size = lt.size(videos)
+    if size <= cantidad:
+        print(' Estos son los mejores videos: ')
+        i = 0
+        while i < size:
+            video = lt.getElement(videos, i)
+            print('Titulo: ' + video['title'] + ', Nombre del canal:' +
+                  video['channel_title'] + ', Publish Time:' +
+                  video['publish_time'] + ', Reproducciones:' +
+                  video['views'] + ', Likes:' + video['likes'] +
+                  ', Dislikes:' + video['dislikes'] + ', tags: '
+                  + video['tags'])
+            i += 1
+    else:
+        print('No se encontraron videos')
+
+
 catalog = None
 
 """
@@ -102,7 +123,7 @@ while True:
 
     elif int(inputs[0]) == 2:
         categoria = input("Seleccione una categoria: ")
-        top = input('Top?: ')
+        top = input('¿Top?: ')
         categoryID = controller.getCategoryid(catalog, categoria)
         lista = controller.sortVideosByLikes(catalog, categoryID)
         printVideosByLikes(lista, int(top))
@@ -110,11 +131,25 @@ while True:
     elif int(inputs[0]) == 3:
         categoria = input("Seleccione una categoria: ")
         pais = input("Seleccione un pais: ")
-        top = input('Top?: ')
+        top = input('¿Top?: ')
         categoryID = controller.getCategoryid(catalog, categoria)
         lista = controller.sortVideosByViews(catalog, pais)
         masVistos = controller.sublistByCategory(lista, categoryID, top)
         printVideosByViews(masVistos, int(top))
+
+    elif int(inputs[0]) == 4:
+        pais = input("Seleccione un pais: ")
+
+    elif int(inputs[0]) == 5:
+        categoria = input("Seleccione una categoria: ")
+
+    elif int(inputs[0]) == 6:
+        pais = input("Seleccione un pais: ")
+        tag = input('Ingrese un tag: ')
+        top = input('¿Top?: ')
+        lista = controller.sortVideosByLikesAndTags(catalog, pais)
+        masLikes = controller.sublistByTags(lista, tag, top)
+        printVideosByTags(masLikes, int(top))
 
     else:
         sys.exit(0)

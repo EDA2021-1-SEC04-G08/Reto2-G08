@@ -88,6 +88,10 @@ def sortVideosByLikes(catalog, id):
 def sortVideosByViews(catalog, pais):
     return model.sortVideosByViews(catalog, pais)
 
+
+def sortVideosByLikesAndTags(catalog, pais):
+    return model.sortVideosByLikesAndTags(catalog, pais)
+
 # Funciones de consulta sobre el catálogo
 
 
@@ -102,7 +106,12 @@ def sublistByCategory(lista, id, top):
     return model.sublistByCategory(lista, id, top)
 
 
+def sublistByTags(lista, tag, top):
+    return model.sublistByTags(lista, tag, top)
+
+
 # Funciones para medir tiempo y memoria
+
 
 def getTime():
     return float(time.perf_counter()*1000)

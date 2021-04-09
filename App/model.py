@@ -136,6 +136,28 @@ def sublistByCategory(lista, id, top):
 
     return sublist
 
+
+def sublistByTags(lista, tag, top):
+    size = lt.size(lista)
+    sublist = lt.newList('ARRAY_LIST')
+    i = 0
+    T = 0
+
+    while i < size:
+        video = lt.getElement(lista, i)
+        tag1 = video['tags']
+
+        if tag in tag1:
+            lt.addLast(sublist, video)
+            T += 1
+
+        if T == int(top):
+            break
+
+        i += 1
+
+    return sublist
+
 # Funciones de consulta
 
 
@@ -161,6 +183,14 @@ def cmpVideosByViews(video1, video2):
 
 def sortVideosByLikes(catalog, id):
     entry = mp.get(catalog['categoryByVideos'], id)
+    sub_list = me.getValue(entry)['videos']
+    sub_list = sub_list.copy()
+    sorted_list = ms.sort(sub_list, cmpVideosByLikes)
+    return sorted_list
+
+
+def sortVideosByLikesAndTags(catalog, pais):
+    entry = mp.get(catalog['countryByVideos'], pais)
     sub_list = me.getValue(entry)['videos']
     sub_list = sub_list.copy()
     sorted_list = ms.sort(sub_list, cmpVideosByLikes)
