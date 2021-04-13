@@ -167,6 +167,115 @@ def getCategoryid(catalog, category):
     return element
 
 
+def getTendencyByCountry(catalog, country):
+    entry = mp.get(catalog['countryByVideos'], country)
+    sub_list = me.getValue(entry)['videos']
+    size = lt.size(sub_list)
+    i = 0
+    dic = {}
+
+    while i < size:
+        video = lt.getElement(sub_list, i)
+        video_id = video['video_id']
+        t_date = video['trending_date']
+        days = 1
+
+        if video_id not in dic:
+            j = 0
+            while j < size:
+                video2 = lt.getElement(sub_list, j)
+                video_id2 = video2['video_id']
+                t_date2 = video2['trending_date']
+
+                if (t_date != t_date2) and (video_id == video_id2):
+                    days += 1
+                j += 1
+
+            dic[video_id] = days
+
+        i += 1
+        return dic
+
+
+def mostDaysByCountry(catalog, country):
+    dic = getTendencyByCountry(catalog, country)
+    lista = dic.values()
+    maximo = max(lista)
+    llave = 0
+    for elemento in dic:
+        valor = dic[elemento]
+        if valor == maximo:
+            llave = elemento
+            break
+
+    entry = mp.get(catalog['countryByVideos'], country)
+    sub_list = me.getValue(entry)['videos']
+    size = lt.size(sub_list)
+    i = 0
+
+    while i < size:
+        video2 = lt.getElement(sub_list, i)
+        video_id = video2['video_id']
+
+        if video_id == llave:
+            return (video2, maximo)
+        i += 1
+
+
+def getTendencyByCategory(catalog, id):
+    entry = mp.get(catalog['categoryByVideos'], id)
+    sub_list = me.getValue(entry)['videos']
+    size = lt.size(sub_list)
+    i = 0
+    dic = {}
+
+    while i < size:
+        video = lt.getElement(sub_list, i)
+        video_id = video['video_id']
+        t_date = video['trending_date']
+        days = 1
+
+        if video_id not in dic:
+            j = 0
+            while j < size:
+                video2 = lt.getElement(sub_list, j)
+                video_id2 = video2['video_id']
+                t_date2 = video2['trending_date']
+
+                if (t_date != t_date2) and (video_id == video_id2):
+                    days += 1
+                j += 1
+
+            dic[video_id] = days
+
+        i += 1
+        return dic
+
+
+def mostDaysByCategory(catalog, id):
+    dic = getTendencyByCategory(catalog, id)
+    lista = dic.values()
+    maximo = max(lista)
+    llave = 0
+    for elemento in dic:
+        valor = dic[elemento]
+        if valor == maximo:
+            llave = elemento
+            break
+
+    entry = mp.get(catalog['categoryByVideos'], id)
+    sub_list = me.getValue(entry)['videos']
+    size = lt.size(sub_list)
+    i = 0
+
+    while i < size:
+        video2 = lt.getElement(sub_list, i)
+        video_id = video2['video_id']
+
+        if video_id == llave:
+            return (video2, maximo)
+        i += 1
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 

@@ -99,6 +99,13 @@ def getCategoryid(catalog, category):
     return model.getCategoryid(catalog, category)
 
 
+def mostDaysByCountry(catalog, country):
+    return model.mostDaysByCountry(catalog, country)
+
+
+def mostDaysByCategory(catalog, id):
+    return model.mostDaysByCategory(catalog, id)
+
 # Funciones para creacion de datos
 
 

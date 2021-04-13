@@ -86,6 +86,24 @@ def printVideosByViews(videos, cantidad):
         print('No se encontraron videos')
 
 
+def printTendencyByCountry(video):
+    video2 = video[0]
+    dias = video[1]
+    print('Titulo: ' + video2['title'] + ', Nombre del canal:' +
+          video2['channel_title'] + ', Pais:' +
+          video2['country'] + ', Dias que estuvo en tendencia:' +
+          str(dias))
+
+
+def printTendencyByCategory(video):
+    video2 = video[0]
+    dias = video[1]
+    print('Titulo: ' + video2['title'] + ', Nombre del canal:' +
+          video2['channel_title'] + ', ID de la categoria:' +
+          video2['category_id'] + ', Dias que estuvo en tendencia:' +
+          str(dias))
+
+
 def printVideosByTags(videos, cantidad):
     size = lt.size(videos)
     if size <= cantidad:
@@ -139,9 +157,14 @@ while True:
 
     elif int(inputs[0]) == 4:
         pais = input("Seleccione un pais: ")
+        video = controller.mostDaysByCountry(catalog, pais)
+        printTendencyByCountry(video)
 
     elif int(inputs[0]) == 5:
         categoria = input("Seleccione una categoria: ")
+        categoryID = controller.getCategoryid(catalog, categoria)
+        video = controller.mostDaysByCategory(catalog, categoryID)
+        printTendencyByCategory(video)
 
     elif int(inputs[0]) == 6:
         pais = input("Seleccione un pais: ")
