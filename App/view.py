@@ -59,8 +59,8 @@ def printVideosByLikes(videos, cantidad):
     size = lt.size(videos)
     if size > cantidad:
         print(' Estos son los mejores videos: ')
-        i = 0
-        while i <= cantidad-1:
+        i = 1
+        while i <= cantidad:
             video = lt.getElement(videos, i)
             print('Titulo: ' + video['title'])
             i += 1
@@ -72,8 +72,8 @@ def printVideosByViews(videos, cantidad):
     size = lt.size(videos)
     if size == cantidad:
         print(' Estos son los mejores videos: ')
-        i = 0
-        while i <= cantidad-1:
+        i = 1
+        while i <= cantidad:
             video = lt.getElement(videos, i)
             print('Titulo: ' + video['title'] + ', Trending Date:' +
                   video['trending_date'] + ', Nombre del canal:' +
@@ -108,8 +108,8 @@ def printVideosByTags(videos, cantidad):
     size = lt.size(videos)
     if size <= cantidad:
         print(' Estos son los mejores videos: ')
-        i = 0
-        while i < size:
+        i = 1
+        while i <= cantidad:
             video = lt.getElement(videos, i)
             print('Titulo: ' + video['title'] + ', Nombre del canal:' +
                   video['channel_title'] + ', Publish Time:' +

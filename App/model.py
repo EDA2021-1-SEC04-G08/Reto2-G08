@@ -140,12 +140,13 @@ def sublistByCategory(lista, id, top):
 def sublistByTags(lista, tag, top):
     size = lt.size(lista)
     sublist = lt.newList('ARRAY_LIST')
+    tag = tag.lower()
     i = 0
     T = 0
 
     while i < size:
         video = lt.getElement(lista, i)
-        tag1 = video['tags']
+        tag1 = video['tags'].lower()
 
         if tag in tag1:
             lt.addLast(sublist, video)
